@@ -1,58 +1,103 @@
-.h2 {
-  font-size: 2rem;
+.aboutSection {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
   text-align: center;
-  color: #333;
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-.about-content {
-  margin-bottom: 100px;
-  border-bottom: 1px solid #333;
-  height: 100vh;
-  position: relative;
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
 }
 
-.button {
-  width: 150px;
-  height: 50px;
-  position: absolute;
-  right: 20%;
-  top: 20%;
+.imageWrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.imageWrapper:hover {
+  transform: translateY(-8px);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  vertical-align: middle;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bio {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #374151;
+  margin: 0;
+}
+
+.ctaContainer {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.primaryButton,
+.secondaryButton {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
   font-size: 1rem;
-  font-weight: bold;
-  background-color: #093a9a86;
-  color: #f5deb3;
-  border: none;
-  border-radius: 5px;
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: scale 0.5s ease-in, background-color 0.5s ease-in;
 }
 
-.button:hover {
-  scale: 1.1;
-  background-color: #1550c586;
+.primaryButton {
+  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  color: white;
+  border: none;
 }
 
-.img1 {
-  position: absolute;
-  left: 10%;
-  width: 250px;
-  height: 300px;
+.primaryButton:hover {
+  background: linear-gradient(90deg, #2563eb, #4f46e5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
 }
 
-.paragraph {
-  width: 500px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  line-height: 20px;
+.secondaryButton {
+  background: transparent;
+  color: #3b82f6;
+  border: 2px solid #3b82f6;
 }
 
-.img2 {
-  position: absolute;
-  right: 10%;
-  bottom: 0;
-  width: 200px;
-  height: 350px;
+.secondaryButton:hover {
+  background: rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+  .container {
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+  }
+
+  .aboutSection {
+    padding: 6rem 2rem;
+  }
 }
