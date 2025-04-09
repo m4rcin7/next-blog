@@ -21,7 +21,7 @@ const Footer = () => {
           </Link>
         </li>
       </ul>
-      <p>&copy;2024 markopersonally | All Rights Reserved</p>
+      <p>&copy;2024 MARCIN | All Rights Reserved</p>
     </footer>
   );
 };

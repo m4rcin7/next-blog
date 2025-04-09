@@ -12,13 +12,13 @@ const NavBar = () => {
   return (
     <nav className={styles.nav}>
       <div>
-        <Link href="/">
+        <Link href="/home">
           <Image className={styles["nav-logo"]} src={logo} alt="side logo" />
         </Link>
       </div>
       <ul>
         <li>
-          <Link href="/">Home</Link>
+          <Link href="/home">Home</Link>
         </li>
         <li>
           <Link href="/about">About</Link>
