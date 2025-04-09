@@ -1,71 +1,90 @@
 "use client";
-import { useEffect } from "react";
-import { redirect } from "next/navigation";
-import { useAppContext } from "@/app/provider";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import Image from "next/image";
-import styles from "./page.module.css";
+import React, {
+  useState,
+  useCallback,
+  useContext,
+  createContext,
+  ReactNode,
+} from "react";
+import { signOut, signInWithEmailAndPassword } from "firebase/auth";
+import { db, auth } from "@/app/firebase";
+import { Collections } from "@/types/enums/collections";
+import { collection, getDocs } from "firebase/firestore";
+import { Post } from "@/types/interfaces/post";
 
-const Dashboard = () => {
-  // @ts-ignore
-  const { isLogIn, getPosts, allPosts } = useAppContext();
+interface AppContextType {
+  isLogIn: boolean;
+  allPosts: Post[];
+  getPosts: () => Promise<void>;
+  onLogin: (user: string, password: string) => Promise<boolean>;
+  onLogout: () => Promise<boolean>;
+  setIsLogIn: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-  useEffect(() => {
-    getPosts();
-    console.log(allPosts);
+const AppContext = createContext<AppContextType>({
+  isLogIn: false,
+  allPosts: [],
+  getPosts: async () => {},
+  onLogin: async () => false,
+  onLogout: async () => false,
+  setIsLogIn: () => {},
+});
+
+export const useAppContext = () => useContext(AppContext);
+
+interface ProviderProps {
+  children: ReactNode;
+}
+
+const Provider = ({ children }: ProviderProps) => {
+  const [isLogIn, setIsLogIn] = useState(false);
+  const [allPosts, setAllPosts] = useState<Post[]>([]);
+
+  const getPosts = useCallback(async () => {
+    try {
+      const snapshot = await getDocs(collection(db, Collections.POSTS));
+      const posts = snapshot.docs.map((doc) => {
+        const { title, date, img } = doc.data();
+        return { id: doc.id, title, date, img } as Post;
+      });
+      setAllPosts(posts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
   }, []);
 
-  useEffect(() => {
-    if (!isLogIn) {
-      return redirect("/login");
+  const onLogin = useCallback(
+    async (user: string, password: string): Promise<boolean> => {
+      try {
+        await signInWithEmailAndPassword(auth, user, password);
+        setIsLogIn(true);
+        return true;
+      } catch (error) {
+        console.error("Login error:", error);
+        return false;
+      }
+    },
+    []
+  );
+
+  const onLogout = useCallback(async (): Promise<boolean> => {
+    try {
+      await signOut(auth);
+      setIsLogIn(false);
+      return true;
+    } catch (error) {
+      console.error("Logout error:", error);
+      return false;
     }
-  }, [isLogIn]);
+  }, []);
 
   return (
-    <>
-      <h1 className={styles.h1}>Dashboard</h1>
-      <button className={styles.add}>+ Create post</button>
-      <table className={styles.table}>
-        <thead className={styles.thead}>
-          <tr>
-            <th>id</th>
-            <th>title</th>
-            <th>date</th>
-            <th>img</th>
-            <th>edit post</th>
-            <th>delete post</th>
-          </tr>
-        </thead>
-        <tbody className={styles.tbody}>
-          {(allPosts as any).map((post) => (
-            <tr key={post.id}>
-              <td>{post.id}</td>
-              <td>{post.title}</td>
-              <td>{post.date}</td>
-              <td>
-                <Image
-                  width={25}
-                  height={25}
-                  src={post.img}
-                  alt={post.title}
-                />
-              </td>
-              <td>
-                <button className={styles.edit}>
-                  <FaEdit />
-                </button>
-              </td>
-              <td>
-                <button className={styles.delete}>
-                  <FaTrash />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+    <AppContext.Provider
+      value={{ isLogIn, allPosts, getPosts, onLogin, onLogout, setIsLogIn }}
+    >
+      {children}
+    </AppContext.Provider>
   );
 };
 
-export default Dashboard;
+export default Provider;
