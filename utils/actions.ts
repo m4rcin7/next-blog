@@ -4,6 +4,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  getDocs,
 } from "firebase/firestore";
 import { db, auth } from "@/app/firebase";
 import { Collections } from "@/types/enums/collections";
@@ -15,7 +16,7 @@ export async function getPosts() {
   const posts: Post[] = [];
   try {
     const postsSnapshot = await getDocs(postsCollection);
-    postsSnapshot.forEach((document) => {
+    postsSnapshot.forEach((document: any) => {
       const { id } = document;
       const { title, date, img } = document.data();
       const postObject = { id, title, date, img };

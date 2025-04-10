@@ -1,86 +1,68 @@
 "use client";
-import React, {
-  useState,
-  useCallback,
-  useContext,
-  createContext,
-  ReactNode,
-} from "react";
+import { useState, useContext, createContext } from "react";
 import { signOut, signInWithEmailAndPassword } from "firebase/auth";
 import { db, auth } from "@/app/firebase";
 import { Collections } from "@/types/enums/collections";
 import { collection, getDocs } from "firebase/firestore";
 import { Post } from "@/types/interfaces/post";
 
-interface AppContextType {
-  isLogIn: boolean;
-  allPosts: Post[];
-  getPosts: () => Promise<void>;
-  onLogin: (user: string, password: string) => Promise<boolean>;
-  onLogout: () => Promise<boolean>;
-  setIsLogIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const AppContext = createContext<AppContextType>({
+const AppContext = createContext({
   isLogIn: false,
-  allPosts: [],
-  getPosts: async () => {},
-  onLogin: async () => false,
-  onLogout: async () => false,
-  setIsLogIn: () => {},
+  onLogout: () => {},
+  onLogin: (user: string, password: string) => {},
+  setIsLogIn: (isLogIn: boolean) => {},
+  getPost: () => Promise<Post[] | undefined>,
 });
 
 export const useAppContext = () => useContext(AppContext);
 
-interface ProviderProps {
-  children: ReactNode;
-}
-
-const Provider = ({ children }: ProviderProps) => {
+const Provider = ({ children }: { children: React.ReactNode }) => {
   const [isLogIn, setIsLogIn] = useState(false);
-  const [allPosts, setAllPosts] = useState<Post[]>([]);
+  const [allPosts, setAllPosts] = useState<Post[] | []>([]);
 
-  const getPosts = useCallback(async () => {
+  const getPosts = async () => {
+    const postsCollection = collection(db, Collections.POSTS);
+    const posts: Post[] = [];
+
     try {
-      const snapshot = await getDocs(collection(db, Collections.POSTS));
-      const posts = snapshot.docs.map((doc) => {
-        const { title, date, img } = doc.data();
-        return { id: doc.id, title, date, img } as Post;
+      const postsSnapshot = await getDocs(postsCollection);
+      postsSnapshot.forEach((document) => {
+        const { id } = document;
+        const { title, date, img } = document.data();
+        const postObject = { id, title, date, img };
+        posts.push(postObject);
       });
       setAllPosts(posts);
+      return posts;
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      console.error("Error fetching posts: ", error);
     }
-  }, []);
+  };
 
-  const onLogin = useCallback(
-    async (user: string, password: string): Promise<boolean> => {
-      try {
-        await signInWithEmailAndPassword(auth, user, password);
-        setIsLogIn(true);
-        return true;
-      } catch (error) {
-        console.error("Login error:", error);
-        return false;
-      }
-    },
-    []
-  );
+  const onLogin = async (user: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, user, password);
+      setIsLogIn(true);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
-  const onLogout = useCallback(async (): Promise<boolean> => {
+  const onLogout = async () => {
     try {
       await signOut(auth);
       setIsLogIn(false);
       return true;
-    } catch (error) {
-      console.error("Logout error:", error);
+    } catch {
       return false;
     }
-  }, []);
+  };
 
   return (
     <AppContext.Provider
-      value={{ isLogIn, allPosts, getPosts, onLogin, onLogout, setIsLogIn }}
+      // @ts-ignore
+      value={{ isLogIn, onLogin, onLogout, setIsLogIn, getPosts, allPosts }}
     >
       {children}
     </AppContext.Provider>
