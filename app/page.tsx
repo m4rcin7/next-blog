@@ -1,11 +1,11 @@
-import SectionPost from "@/components/section-post";
+import HomePage from "./home/page";
 
-const Home = () => {
+const Start = () => {
   return (
     <>
-      <SectionPost />
+      <HomePage />
     </>
   );
 };
 
-export default Home;
+export default Start;
