@@ -1,6 +1,9 @@
 "use client";
 import profilePic from "@/images/boy-8530678_1280.png";
 import heroImage from "@/images/univers.png";
+import projectImage1 from "@/images/project2.png";
+import projectImage2 from "@/images/project3.png";
+import projectImage3 from "@/images/project4.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -111,12 +114,12 @@ const HomePage = () => {
         <div className={styles.projectsGrid}>
           <div className={styles.projectCard}>
             <div className={styles.projectImageContainer}>
-              {/* <Image
+              <Image
                 src={projectImage1}
                 alt="Project 1"
                 className={styles.projectImage}
                 placeholder="blur"
-              /> */}
+              />
             </div>
             <div className={styles.projectContent}>
               <h3 className={styles.projectTitle}>E-commerce Dashboard</h3>
@@ -140,12 +143,12 @@ const HomePage = () => {
 
           <div className={styles.projectCard}>
             <div className={styles.projectImageContainer}>
-              {/* <Image
+              <Image
                 src={projectImage2}
                 alt="Project 2"
                 className={styles.projectImage}
                 placeholder="blur"
-              /> */}
+              />
             </div>
             <div className={styles.projectContent}>
               <h3 className={styles.projectTitle}>Recipe Finder App</h3>
@@ -169,12 +172,12 @@ const HomePage = () => {
 
           <div className={styles.projectCard}>
             <div className={styles.projectImageContainer}>
-              {/* <Image
+              <Image
                 src={projectImage3}
                 alt="Project 3"
                 className={styles.projectImage}
                 placeholder="blur"
-              /> */}
+              />
             </div>
             <div className={styles.projectContent}>
               <h3 className={styles.projectTitle}>Fitness Tracker</h3>
