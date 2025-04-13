@@ -1,4 +1,6 @@
 "use client";
+import profilePic from "@/images/boy-8530678_1280.png";
+import heroImage from "@/images/univers.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -29,26 +31,26 @@ const HomePage = () => {
           </div>
         </div>
         <div className={styles.heroImageContainer}>
-          {/* <Image
+          <Image
             src={heroImage}
             alt="Developer working on code"
             className={styles.heroImage}
             priority
             placeholder="blur"
-          /> */}
+          />
         </div>
       </section>
 
       <section className={styles.aboutSection}>
         <div className={styles.aboutImageContainer}>
-          {/* <Image
+          <Image
             src={profilePic}
             alt="Profile picture"
             className={styles.profileImage}
             width={240}
             height={240}
             placeholder="blur"
-          /> */}
+          />
         </div>
         <div className={styles.aboutContent}>
           <h2 className={styles.sectionTitle}>
