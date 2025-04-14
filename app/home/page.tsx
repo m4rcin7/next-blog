@@ -1,9 +1,9 @@
 "use client";
 import profilePic from "@/images/boy-8530678_1280.png";
 import heroImage from "@/images/univers.png";
-import projectImage1 from "@/images/project2.png";
-import projectImage2 from "@/images/project3.png";
-import projectImage3 from "@/images/project4.png";
+import projectImage1 from "@/images/photo2.png";
+import projectImage2 from "@/images/photo3.png";
+import projectImage3 from "@/images/photo4.png";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
