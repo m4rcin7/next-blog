@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getPosts } from "@/utils/actions"; // Function to fetch posts from Firebase
-import { Post } from "@/types/interfaces/post"; // Post interface
+import { getPosts } from "@/utils/actions"; 
+import { Post } from "@/types/interfaces/post"; 
 
 const SectionPostCart = () => {
   const [posts, setPosts] = useState<Post[]>([]);

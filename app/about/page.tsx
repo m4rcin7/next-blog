@@ -1,7 +1,7 @@
 import Image from "next/image";
 import img1 from "@/images/about1.png";
 import img2 from "@/images/about2.png";
-import styles from "./page.module.css";
+import styles from "./about.module.css";
 
 const About = () => {
   return (
