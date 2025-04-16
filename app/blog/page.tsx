@@ -1,4 +1,4 @@
-import SectionPost from "@/components/section-post";
+import SectionPost from "@/components/posts/section-post";
 
 const Blog = () => {
   return <SectionPost />;
