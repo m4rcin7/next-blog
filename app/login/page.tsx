@@ -1,4 +1,5 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import FormContainer from "@/components/form/form-container";
@@ -8,54 +9,48 @@ import { useAppContext } from "../provider";
 import { onLogin } from "@/utils/actions";
 
 const Login = () => {
-  const [success, setSuccess] = useState(false);
-
+  const [loginSuccess, setLoginSuccess] = useState(false);
   const { isLogIn, setIsLogIn } = useAppContext();
 
   useEffect(() => {
-    console.log("isLoggedIn", isLogIn);
-    if (success || isLogIn) {
+    if (loginSuccess || isLogIn) {
       redirect("/dashboard");
     }
-  }, [success, isLogIn]);
+  }, [loginSuccess, isLogIn]);
 
   const handleLogin = async (
-    prevState: any,
+    _prevState: any,
     formData: FormData
-  ): Promise<{ message: string }> => {
-    let success = false;
+  ): Promise<{ message: "success" | "error" }> => {
+    const { login, password } = Object.fromEntries(formData) as {
+      login: string;
+      password: string;
+    };
+
     try {
-      const rawData = Object.fromEntries(formData) as { [key: string]: string };
+      const isSuccess = await onLogin(login, password);
 
-      const { login, password } = rawData;
-
-      success = await onLogin(login, password);
-
-      setSuccess(true);
-
-      if (!success) {
+      if (!isSuccess) {
         throw new Error("Invalid credentials");
       }
 
       setIsLogIn(true);
-      return {
-        message: "success",
-      };
-    } catch (error) {
-      setSuccess(false);
+      setLoginSuccess(true);
+
+      return { message: "success" };
+    } catch {
       setIsLogIn(false);
-      return {
-        message: "error",
-      };
+      setLoginSuccess(false);
+      return { message: "error" };
     }
   };
 
   return (
-      <FormContainer action={handleLogin}>
-        <FormInput type="text" name="login" label="Login :" />
-        <FormInput type="password" name="password" label="Password :" />
-        <FormButton text="Log in" />
-      </FormContainer>
+    <FormContainer action={handleLogin}>
+      <FormInput type="text" name="login" label="Login :" />
+      <FormInput type="password" name="password" label="Password :" />
+      <FormButton text="Log in" />
+    </FormContainer>
   );
 };
 
