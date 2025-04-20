@@ -1,22 +1,24 @@
 .nav {
   max-width: 1400px;
-  margin: auto;
-  padding: 20px 0;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #3333;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.2);
+  gap: 1rem;
 }
 
 .nav-logo {
-  width: 35px;
-  height: 35px;
-  transition: scale 0.4s ease-in;
+  width: 40px;
+  height: 40px;
+  transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .nav-logo:hover {
-  scale: 0.9;
+  transform: scale(0.9);
 }
 
 .nav ul {
@@ -24,31 +26,38 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  padding: 0;
+  margin: 0;
 }
 
 .nav a {
   color: #007bff;
-  text-shadow: -1px -1px 10px #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+  transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .nav a:hover {
   color: #193e8e;
-  transition: color 0.3s ease-in;
+  text-shadow: 0 2px 5px rgba(255, 255, 255, 0.9);
 }
 
 .btn-log-in {
-  width: 150px;
-  padding: 10px;
-  background-color: #007bff;
-  color: #f5deb3;
+  min-width: 150px;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(135deg, #007bff, #0056d2);
+  color: #f5f5f5;
   border: none;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btn-log-in:hover {
-  background-color: #193e8e;
+  background: linear-gradient(135deg, #0056d2, #003f8a);
+  transform: translateY(-2px);
 }
