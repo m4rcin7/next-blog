@@ -25,10 +25,10 @@ const HomePage = () => {
             technologies
           </p>
           <div className={styles.heroCta}>
-            <Link href="/projects" className={styles.primaryButton}>
+            <Link href="https://github.com/m4rcin7" className={styles.primaryButton}>
               View My Work
             </Link>
-            <Link href="/contact" className={styles.outlineButton}>
+            <Link href="https://github.com/m4rcin7" className={styles.outlineButton}>
               Get In Touch
             </Link>
           </div>
